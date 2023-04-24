@@ -92,7 +92,7 @@ Setup [N, D, L] = [32, 300, 50]
   - (Naive) : 1.258s
 
 Setup [N, D, L] = [1000, 100, 10]
----
+----
 
   Checking correctness
   ---
