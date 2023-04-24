@@ -79,21 +79,27 @@ def profiling(full, names, approximations, model, X, y, REPEATS=1, Prec=20):
 		print(names[i])
 		profile(approximations[i])
 
-def make_data_and_model(N, D, L, seed=42):
+def make_data_and_model(N, D, L, seed=1, distribution='normal'):
 	"""
 	# N: Number of samples
-	# D: Dimension of input and of each Layer
-	# L: Number of hidden layers
-	"""
-	torch.manual_seed(seed)
+    	# D: Dimension of input and of each Layer
+    	# L: Number of hidden layers
+    	# distribution: type of distribution to generate input data ('normal', 'uniform', 'laplace')
+    	"""
+    	torch.manual_seed(seed)
+	
+    	if distribution == 'normal':
+		X = torch.Tensor(torch.randn(N, D))
+    	elif distribution == 'uniform':
+		X = torch.Tensor(torch.rand(N, D))
+    	elif distribution == 'laplace':
+		X = torch.Tensor(torch.from_numpy(np.random.laplace(loc=0, scale=1, size=(N, D))).float())
 
-	hidden_sizes = [200, 150, 100]
+    	y = torch.Tensor(torch.round(torch.rand(N))).view(-1,)
 
-	X = torch.Tensor(torch.randn(N, D))
-	y = torch.Tensor(torch.round(torch.rand(N))).view(-1,)
-
-	model = MLP(input_size = D, hidden_sizes = hidden_sizes)
-	model.train(True)
+    	model = MLP(input_size=D, hidden_sizes=[D] * L)
+    	model.train(True)
 
 	return X, y, model
+
 
