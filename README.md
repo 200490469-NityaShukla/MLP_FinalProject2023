@@ -1,45 +1,31 @@
-# Certified Data Removal from Machine Learning Models
+# Efficient Per-Example Gradient Computations
 
-# Improved Certified Removal via Adversarial Training (CRAFT)
+This repository contains an implementation of three gradient computation methods for neural networks:
+- Full: Computes the averaged gradient of the complete objective function
+- Naive: Computes each individual gradient by repeatedly calling backward
+- Goodfellow: Computes the individual gradients using Goodfellow's Trick, which is equivalent to redefining the backward pass to _not_ aggregate individual gradients
 
-This repository contains an improved implementation of the paper "Certified Removal via Adversarial Training" by Eric Wong, Leslie Rice, and J. Zico Kolter. The original version can be found [here](https://github.com/facebookresearch/certified-removal). Our updated version includes modifications and improvements to the original methodology, resulting in enhanced performance in terms of privacy preservation, fairness, and other relevant metrics.
+The implementation is based on the following paper:
+"Efficient Per-Example Gradient Computations" by Dami Choi, Tamas Sarlos, and Levent Sagun, ICML 2019.
 
-## Updates and Improvements
+## Requirements
+- Python 3
+- PyTorch
 
-The key updates and improvements made to the original implementation are as follows:
+## Usage
 
-- Implemented a modified neural network architecture (ResNet-34) for improved performance.
-- Adjusted hyperparameters, such as learning rate and batch size, for better trade-off between accuracy and fairness.
-- Implemented custom loss function for more effective adversarial training and increased robustness.
+### Run the Code
+To run the code, simply execute the `main.py` file. You can modify the `setups` list at the bottom of the file to experiment with different model parameters.
 
-## Getting Started
+### Output
+The output of the program includes:
+- Checking correctness: This checks the correctness of the computed gradients by comparing them to the full batch gradient using torch.norm().
+- Simple timing: This measures the time taken to compute the gradients using each method for the given model.
+- Profiling: This measures the time spent in different functions in the code using the python `cProfile` module.
 
-### Prerequisites
+### Update
+In order to upgrade the methodology, the number of hidden layers in the MLP model can be increased to explore the impact of model depth on performance. Additionally, the batch size `N` can also be modified to see the impact of larger or smaller batch sizes on performance. These changes can be made in the `helpers.py` file.
 
-The prerequisites remain the same as the original repository.
+## License
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-### Installation
-
-Follow the installation instructions from the original repository to install the required packages and dependencies.
-
-### Data Preparation
-
-The datasets used (CIFAR-10 and CIFAR-100) remain the same as in the original repository. Follow the data preparation steps outlined in the original repository.
-
-## Running the Experiments
-
-To run the experiments with the updated implementation, use the following command:
-
-python main.py --model resnet34 --learning_rate 0.001 --batch_size 64
-
-This command runs the improved CRAFT method using the ResNet-34 architecture, a learning rate of 0.001, and a batch size of 64.
-
-## Evaluation and Results
-
-The updated implementation was evaluated using the same metrics as the original paper (privacy preservation and fairness). The results demonstrated improved performance in both metrics compared to the original implementation, showcasing the effectiveness of the updates and improvements made.
-
-## Acknowledgments
-
-We would like to acknowledge the original authors, Eric Wong, Leslie Rice, and J. Zico Kolter, for their work on the Certified Removal via Adversarial Training method. Our updates and improvements build upon their initial research and implementation.
-
-Please visit the [original repository](https://github.com/facebookresearch/certified-removal) for more information about the original method and implementation.
