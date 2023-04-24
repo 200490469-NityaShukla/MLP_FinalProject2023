@@ -13,7 +13,7 @@ from goodfellow_backprop import goodfellow_backprop
 
 def full(model, X, y):
 	"""
-	Computes the gradient of the complete objective function
+	Computes the gradient of the complete objective function.
 	"""
 
 	logits, _, _ = model.forward(X)
