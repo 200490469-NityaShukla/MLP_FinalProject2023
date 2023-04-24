@@ -10,14 +10,21 @@ import helpers
 from gradient_funcs import full, goodfellow, naive
 
 def runWith(N, D, L):
-	X, y, model = helpers.make_data_and_model(N, D, L)
+	setups = [
+        	[N, D, L, 'normal'],
+        	[N, D, L, 'uniform'],
+        	[N, D, L, 'laplace'],
+    	]
 
-	names = ["Goodf", "Naive"]
-	methods = [goodfellow, naive]
+    	names = ["Goodf", "Naive"]
+    	methods = [goodfellow, naive]
+	
+    	for setup in setups:
+        	X, y, model = helpers.make_data_and_model(*setup)
 
-	helpers.check_correctness(full, names, methods, model, X, y)
-	helpers.simpleTiming(full, names, methods, model, X, y, REPEATS=1)
-	#helpers.profiling(full, names, methods, model, X, y)
+        	helpers.check_correctness(full, names, methods, model, X, y)
+        	helpers.simpleTiming(full, names, methods, model, X, y, REPEATS=1)
+
 
 setups = [
 	[2,3,1],
