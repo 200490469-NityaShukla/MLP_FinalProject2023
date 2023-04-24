@@ -79,7 +79,7 @@ def profiling(full, names, approximations, model, X, y, REPEATS=1, Prec=20):
 		print(names[i])
 		profile(approximations[i])
 
-def make_data_and_model(N, D, L, seed=1):
+def make_data_and_model(N, D, L, seed=42):
 	"""
 	# N: Number of samples
 	# D: Dimension of input and of each Layer
@@ -87,7 +87,7 @@ def make_data_and_model(N, D, L, seed=1):
 	"""
 	torch.manual_seed(seed)
 
-	hidden_sizes = list(D for l in range(L))
+	hidden_sizes = [200, 150, 100]
 
 	X = torch.Tensor(torch.randn(N, D))
 	y = torch.Tensor(torch.round(torch.rand(N))).view(-1,)
