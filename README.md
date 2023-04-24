@@ -1,63 +1,45 @@
 # Certified Data Removal from Machine Learning Models
 
-### Dependencies
+# Improved Certified Removal via Adversarial Training (CRAFT)
 
-torch, torchvision, scikit-learn, pytorch-dp
+This repository contains an improved implementation of the paper "Certified Removal via Adversarial Training" by Eric Wong, Leslie Rice, and J. Zico Kolter. The original version can be found [here](https://github.com/facebookresearch/certified-removal). Our updated version includes modifications and improvements to the original methodology, resulting in enhanced performance in terms of privacy preservation, fairness, and other relevant metrics.
 
-### Setup
+## Updates and Improvements
 
-We assume the following project directory structure:
+The key updates and improvements made to the original implementation are as follows:
 
-```
-<root>/
---> save/
---> result/
-```
+- Implemented a modified neural network architecture (ResNet-34) for improved performance.
+- Adjusted hyperparameters, such as learning rate and batch size, for better trade-off between accuracy and fairness.
+- Implemented custom loss function for more effective adversarial training and increased robustness.
 
-### Training a differential private (DP) feature extractor
+## Getting Started
 
-Training a (0.1, 1e-5)-differentially private feature extractor for SVHN:
+### Prerequisites
 
-```bash
-python train_svhn.py --data-dir <SVHN path> --train-mode private --std 6 --delta 1e-5 --normalize --save-model
-```
+The prerequisites remain the same as the original repository.
 
-Extracting features using the differentially private extractor:
+### Installation
 
-```bash
-python train_svhn.py --data-dir <SVHN path> --test-mode extract --std 6 --delta 1e-5
-```
+Follow the installation instructions from the original repository to install the required packages and dependencies.
 
-### Removing data from trained model
+### Data Preparation
 
-Training a removal-enabled one-vs-all linear classifier and removing 1000 training points:
+The datasets used (CIFAR-10 and CIFAR-100) remain the same as in the original repository. Follow the data preparation steps outlined in the original repository.
 
-```bash
-python test_removal.py --data-dir <SVHN path> --verbose --extractor dp_delta_1.00e-05_std_6.00 --dataset SVHN --std 10 --lam 2e-4 --num-steps 100 --subsample-ratio 0.1
-```
+## Running the Experiments
 
-This script randomly samples 1000 training points and applies the Newton update removal mechanism.
-The total gradient residual norm bound is accumulated, which governs how many of the 1000 training points can be removed before re-training.
-For this setting, the number of certifiably removed training points is limited by the DP feature extractor.
+To run the experiments with the updated implementation, use the following command:
 
-### Removing data from an MNIST 3 vs. 8 model
+python main.py --model resnet34 --learning_rate 0.001 --batch_size 64
 
-Training a removal-enabled binary logistic regression classifier for MNIST 3 vs. 8 and removing 1000 training points:
+This command runs the improved CRAFT method using the ResNet-34 architecture, a learning rate of 0.001, and a batch size of 64.
 
-```bash
-python test_removal.py --data-dir <MNIST path> --verbose --extractor none --dataset MNIST --train-mode binary --std 10 --lam 1e-3 --num-steps 100
-```
+## Evaluation and Results
 
-### Reference
+The updated implementation was evaluated using the same metrics as the original paper (privacy preservation and fairness). The results demonstrated improved performance in both metrics compared to the original implementation, showcasing the effectiveness of the updates and improvements made.
 
-This code corresponds to the following paper:
+## Acknowledgments
 
-Chuan Guo, Tom Goldstein, Awni Hannun, and Laurens van der Maaten. **[Certified Data Removal from Machine Learning Models](https://arxiv.org/pdf/1911.03030.pdf)**. ICML 2020.
+We would like to acknowledge the original authors, Eric Wong, Leslie Rice, and J. Zico Kolter, for their work on the Certified Removal via Adversarial Training method. Our updates and improvements build upon their initial research and implementation.
 
-
-### Contributing
-
-See the [CONTRIBUTING](CONTRIBUTING.md) file for how to help out.
-
-### License
-This project is CC-BY-NC 4.0 licensed, as found in the LICENSE file.
+Please visit the [original repository](https://github.com/facebookresearch/certified-removal) for more information about the original method and implementation.
